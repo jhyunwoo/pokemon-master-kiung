@@ -70,6 +70,16 @@ public:
     Skill heatWave;
 };
 
+class Palkia:public Pokemon
+{
+public:
+    Palkia();
+    Skill hydroPump;
+    Skill earthPower;
+    Skill surf;
+    Skill spatialRend;
+};
+
 
 // Main 함수
 int main(){
@@ -122,8 +132,7 @@ int Skill::getMaxTry() const
 }
 
 // Pikachu 클래스 정의
-Pikachu::Pikachu():Pokemon(0, "Pikachu", "Electric", 35), tackle("Tackle", "Normal", 4, 5), glassKnot("GlassKnot", "Glass", 8, 5), thunderbolt("Thunderbolt", "Electric", 10, 5), megabolt("Megabolt", "Electric", 15, 3)
-{}
+Pikachu::Pikachu():Pokemon(0, "Pikachu", "Electric", 35), tackle("Tackle", "Normal", 4, 5), glassKnot("GlassKnot", "Glass", 8, 5), thunderbolt("Thunderbolt", "Electric", 10, 5), megabolt("Megabolt", "Electric", 15, 3){}
 
 // Dratini 클래스 정의
 Dratini::Dratini():Pokemon(1, "Dratini", "Water", 41), wrap("Wrap", "Normal", 4, 10), aquaTail("Aqua Tail", "Water", 3, 5), waterPulse("Water Pulse", "Water", 13, 2), hyperBeam("Hyper Beam", "Normal", 20, 1){}
@@ -133,3 +142,6 @@ Eevee::Eevee():Pokemon(2, "Eevee", "Normal", 55), tackle("Tackle", "Normal", 4, 
 
 // Charmander 클래스 정의
 Charmander::Charmander():Pokemon(3, "Charmander", "Fire", 39), tackle("Tackle", "Normal", 4, 5), flamethrower("Flamethrower", "Fire", 11, 5), dig("Dig", "Ground", 7, 5), heatWave("Heat Wave", "Fire", 14, 5){}
+
+// Palkia 클래스 정의
+Palkia::Palkia():Pokemon(4, "Palkia", "Water", 90), hydroPump("Hydro Pump", "Water", 12, 10), earthPower("Earth Power", "Ground", 15, 10), surf("Surf", "Water", 13, 10), spatialRend("Spatial Rend", "Normal", 30, 10){}
