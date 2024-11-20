@@ -46,14 +46,15 @@ public:
     void printState();
     void useSkill(int skillId);
 private:
-    Pokemon pokemon1;
-    Pokemon pokemon2;
+    Pokemon pokeballs[2];
     int turn = 0;
 };
 
 Pokemon setPokemon(int n);
 
 string getFixedSizeString(string text, int size);
+
+bool isIncluded(string list[], string target);
 
 // Main 함수
 int main(){
@@ -92,7 +93,6 @@ Skill::Skill(string name, string skillType, int damage, int maxTry):name(name), 
     remaining = maxTry;
 }
 
-
 string Skill::getName()
 {
     return name;
@@ -121,7 +121,9 @@ int Skill::getRemaining() const
 // Pokemon 생성자 선언
 Pokemon::Pokemon(): skills{Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0)}{}
 
-Pokemon::Pokemon(int n, string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): n(n), name(name),type(type), hp(hp), skills{skill0, skill1, skill2, skill3} {}
+Pokemon::Pokemon(int n, string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): n(n), name(name),type(type), hp(hp), skills{skill0, skill1, skill2, skill3}
+{
+}
 
 
 void Pokemon::attacked(const int damage){
@@ -169,15 +171,15 @@ Pokemon setPokemon(const int n)
 }
 
 // BattlePage 클래스 정의
-BattlePage::BattlePage(Pokemon pokemon1, Pokemon pokemon2):pokemon1(pokemon1), pokemon2(pokemon2){}
+BattlePage::BattlePage(Pokemon pokemon1, Pokemon pokemon2):pokeballs{pokemon1, pokemon2}{}
 
 void BattlePage::printState()
 {
     cout << "+-------------------------------------------------------------+" << endl;
     cout << "| 2024-02 Object-Oriented Programming Pokemon Master          |" <<endl;
     cout << "+------------------------------+------------------------------+" << endl;
-    string name1 = pokemon1.getName();
-    string name2 = pokemon2.getName();
+    string name1 = pokeballs[0].getName();
+    string name2 = pokeballs[1].getName();
     if(turn %2 == 0)
     {
         name1 += " (*)";
@@ -186,26 +188,26 @@ void BattlePage::printState()
         name2 += " (*)";
     }
     cout << "| " << getFixedSizeString(name1, 29) << "| "<< getFixedSizeString(name2, 29) << "|" <<  endl;
-    cout << "| Type: "<< getFixedSizeString(pokemon1.getType(), 23) <<"| Type: "<< getFixedSizeString(pokemon2.getType(), 23) << "|" <<endl;
-    cout << "| HP: "<< getFixedSizeString(to_string(pokemon1.getHp()), 25) <<"| HP: "<< getFixedSizeString(to_string(pokemon2.getHp()), 25) << "|" << endl;
+    cout << "| Type: "<< getFixedSizeString(pokeballs[0].getType(), 23) <<"| Type: "<< getFixedSizeString(pokeballs[1].getType(), 23) << "|" <<endl;
+    cout << "| HP: "<< getFixedSizeString(to_string(pokeballs[0].getHp()), 25) <<"| HP: "<< getFixedSizeString(to_string(pokeballs[1].getHp()), 25) << "|" << endl;
     cout << "+------------------------------+------------------------------+" << endl;
-    cout << "| Latest Skill: " << getFixedSizeString(pokemon1.getLastSkill(), 15) <<"| Latest Skill: "<< getFixedSizeString(pokemon2.getLastSkill(), 15) << "|"<< endl;
+    cout << "| Latest Skill: " << getFixedSizeString(pokeballs[0].getLastSkill(), 15) <<"| Latest Skill: "<< getFixedSizeString(pokeballs[1].getLastSkill(), 15) << "|"<< endl;
     cout << "|                              |                              |" << endl;
     cout << "+------------------------------+------------------------------+" << endl;
 
     for(int i=0; i<4; i++)
     {
-        cout << "| (" << i << ") " << getFixedSizeString(pokemon1.skills[i].getName(), 25) << "| (0) " << getFixedSizeString(pokemon2.skills[i].getName(), 25) << "|" << endl;
-        cout << "|     - Type: "<< getFixedSizeString(pokemon1.skills[i].getSkillType(),17) << "|     - Type: " << getFixedSizeString(pokemon2.skills[i].getSkillType(),17) << "|" << endl;
-        cout << "|     - Damage: "<< getFixedSizeString(to_string(pokemon1.skills[i].getDamage()),15) << "|     - Damage: " << getFixedSizeString(to_string(pokemon2.skills[i].getDamage()),15) << "|" << endl;
+        cout << "| (" << i << ") " << getFixedSizeString(pokeballs[0].skills[i].getName(), 25) << "| (0) " << getFixedSizeString(pokeballs[1].skills[i].getName(), 25) << "|" << endl;
+        cout << "|     - Type: "<< getFixedSizeString(pokeballs[0].skills[i].getSkillType(),17) << "|     - Type: " << getFixedSizeString(pokeballs[1].skills[i].getSkillType(),17) << "|" << endl;
+        cout << "|     - Damage: "<< getFixedSizeString(to_string(pokeballs[0].skills[i].getDamage()),15) << "|     - Damage: " << getFixedSizeString(to_string(pokeballs[1].skills[i].getDamage()),15) << "|" << endl;
         string count1, count2;
-        count1 = to_string(pokemon1.skills[i].getRemaining());
+        count1 = to_string(pokeballs[0].skills[i].getRemaining());
         count1 += "(";
-        count1 += to_string(pokemon1.skills[i].getMaxTry());
+        count1 += to_string(pokeballs[0].skills[i].getMaxTry());
         count1 += ")";
-        count2 = to_string(pokemon2.skills[i].getRemaining());
+        count2 = to_string(pokeballs[1].skills[i].getRemaining());
         count2 += "(";
-        count2 += to_string(pokemon2.skills[i].getMaxTry());
+        count2 += to_string(pokeballs[1].skills[i].getMaxTry());
         count2 += ")";
         cout << "|     - Count: "<< getFixedSizeString(count1,16) << "|     - Count: " << getFixedSizeString(count2,16) << "|" << endl;
     }
@@ -214,10 +216,55 @@ void BattlePage::printState()
 
 void BattlePage::useSkill(int skillId)
 {
-    if(turn %2 == 0)
+    int target = turn %2;
+    string defenderType = pokeballs[].getType();
+    string skillType = pokeballs[0].skills[skillId].getSkillType();
+    int damage = pokeballs[0].skills[skillId].getDamage();
+    if(skillType == "Ground")
     {
-        int damage = pokemon1.skills[skillId].getDamage();
-
+        if(defenderType == "Electric" || defenderType == "Fire")
+        {
+            damage += 5;
+        }else if(defenderType == "Glass")
+        {
+            damage -= 3;
+        }
+    }else if(skillType == "Electric")
+    {
+        if(defenderType == "Water")
+        {
+            damage += 5;
+        }else if(defenderType == "Ground" || defenderType == "Electric" || defenderType == "Glass")
+        {
+            damage -= 3;
+        }
+    }else if(skillType == "Water")
+    {
+        if(defenderType == "Ground" || defenderType == "Fire")
+        {
+            damage += 5;
+        }else if(defenderType == "Water" || defenderType == "Glass")
+        {
+            damage -= 3;
+        }
+    }else if(skillType == "Glass")
+    {
+        if(defenderType == "Water")
+        {
+            damage += 5;
+        }else if(defenderType == "Ground" || defenderType == "Glass" || defenderType == "Fire")
+        {
+            damage -= 3;
+        }
+    }else if(skillType == "Fire")
+    {
+        if(defenderType == "Glass")
+        {
+            damage += 5;
+        }else if(defenderType == "Water" || defenderType == "Fire")
+        {
+            damage -= 3;
+        }
     }
 }
 
@@ -231,4 +278,14 @@ string getFixedSizeString(string text, int size)
         text += " ";
     }
     return text;
+}
+
+bool isIncluded(string list[], const int size, const string& target)
+{
+    bool found = false;
+    for(int i=0; i<size; i++)
+    {
+        if(list[i] == target) found = true;
+    }
+    return found;
 }
