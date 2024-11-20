@@ -32,6 +32,7 @@ class Pokemon {
     string getType() const;
     Skill skills[4];
     void setLastSkill(string skill);
+    void setSkillResult(string result);
     string getSkillResult() const;
 
     private: 
@@ -167,6 +168,12 @@ string Pokemon::getType() const
     return type;
 }
 
+void Pokemon::setSkillResult(string result)
+{
+    skillResult = result;
+}
+
+
 
 Pokemon setPokemon(const int n)
 {
@@ -234,78 +241,90 @@ void BattlePage::printState()
 
 void BattlePage::useSkill(int skillId)
 {
-    int target = turn %2;
-
-    if(pokeballs[target].skills[skillId].getRemaining()<=0)
+    int attacker = turn %2;
+    int defender;
+    if(attacker)
     {
-        cout << pokeballs[target].getName() << " failed to perform " << pokeballs[target].skills[skillId].getName() <<"." << endl;
+        defender = 0;
+    }else
+    {
+        defender = 1;
+    }
+
+    if(pokeballs[attacker].skills[skillId].getRemaining()<=0)
+    {
+        cout << pokeballs[attacker].getName() << " failed to perform " << pokeballs[attacker].skills[skillId].getName() <<"." << endl;
         turn ++;
         return;
     }
 
-    string defenderType = pokeballs[target+1].getType();
-    string skillType = pokeballs[target].skills[skillId].getSkillType();
-    int damage = pokeballs[target].skills[skillId].getDamage();
+    string defenderType = pokeballs[defender].getType();
+    string skillType = pokeballs[attacker].skills[skillId].getSkillType();
+    string skillResult = "It was effective.";
+    int damage = pokeballs[attacker].skills[skillId].getDamage();
     if(skillType == "Ground")
     {
         if(defenderType == "Electric" || defenderType == "Fire")
         {
             damage += 5;
+            skillResult = "It was super effective.";
         }else if(defenderType == "Glass")
         {
             damage -= 3;
+            skillResult="It was not very effective.";
         }
     }else if(skillType == "Electric")
     {
         if(defenderType == "Water")
         {
             damage += 5;
+            skillResult = "It was super effective.";
         }else if(defenderType == "Ground" || defenderType == "Electric" || defenderType == "Glass")
         {
             damage -= 3;
+            skillResult="It was not very effective.";
         }
     }else if(skillType == "Water")
     {
         if(defenderType == "Ground" || defenderType == "Fire")
         {
             damage += 5;
+            skillResult = "It was super effective.";
         }else if(defenderType == "Water" || defenderType == "Glass")
         {
             damage -= 3;
+            skillResult="It was not very effective.";
         }
     }else if(skillType == "Glass")
     {
         if(defenderType == "Water")
         {
             damage += 5;
+            skillResult = "It was super effective.";
         }else if(defenderType == "Ground" || defenderType == "Glass" || defenderType == "Fire")
         {
             damage -= 3;
+            skillResult="It was not very effective.";
         }
     }else if(skillType == "Fire")
     {
         if(defenderType == "Glass")
         {
             damage += 5;
+            skillResult = "It was super effective.";
         }else if(defenderType == "Water" || defenderType == "Fire")
         {
             damage -= 3;
+            skillResult="It was not very effective.";
         }
     }
-    cout << pokeballs[target].getName() << " used " << pokeballs[target].skills[skillId].getName() << "." << endl;
-    if(damage == 5)
-    {
-        cout << "It was effective." << endl;
-    }else if (damage == 8)
-    {
-        cout << "It was super effective." << endl;
-    }else
-    {
-        cout << "It was not very effective." << endl;
-    }
-    pokeballs[target+1].attacked(damage);
-    pokeballs[target].skills[skillId].used();
-    pokeballs[target].setLastSkill(pokeballs[target].skills[skillId].getName());
+    cout << pokeballs[attacker].getName() << " used " << pokeballs[attacker].skills[skillId].getName() << "." << endl;
+    cout << skillResult << endl;
+    pokeballs[attacker].setSkillResult(skillResult);
+    pokeballs[defender].attacked(damage);
+    pokeballs[attacker].skills[skillId].used();
+    pokeballs[attacker].setLastSkill(pokeballs[attacker].skills[skillId].getName());
+
     turn ++;
 }
 
