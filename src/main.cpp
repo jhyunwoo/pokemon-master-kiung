@@ -12,6 +12,7 @@ public:
     int getDamage() const;
     int getMaxTry() const;
     int getRemaining() const;
+    void used();
 private:
     string name;
     string skillType;
@@ -77,12 +78,14 @@ int main(){
     BattlePage battlePage(pokemon1, pokemon2);
     battlePage.printState();
 
-    while(true)
+    while(pokemon1.getHp() > 0 && pokemon2.getHp() > 0)
     {
         int skill;
         cout << "Choose a skill(0~3): ";
         cin >> skill;
+        battlePage.useSkill(skill);
     }
+    cout << pokemon1.getHp() << pokemon2.getHp() << endl;
 
     return 0;
 }
@@ -116,6 +119,11 @@ int Skill::getMaxTry() const
 int Skill::getRemaining() const
 {
     return remaining;
+}
+
+void Skill::used()
+{
+    remaining--;
 }
 
 // Pokemon 생성자 선언
@@ -217,9 +225,16 @@ void BattlePage::printState()
 void BattlePage::useSkill(int skillId)
 {
     int target = turn %2;
-    string defenderType = pokeballs[].getType();
-    string skillType = pokeballs[0].skills[skillId].getSkillType();
-    int damage = pokeballs[0].skills[skillId].getDamage();
+
+    if(pokeballs[target].skills[skillId].getRemaining()<=0)
+    {
+        cout << pokeballs[target].getName() << " failed to perform " << pokeballs[target].skills[skillId].getName() <<"." << endl;
+        return;
+    }
+
+    string defenderType = pokeballs[target+1].getType();
+    string skillType = pokeballs[target].skills[skillId].getSkillType();
+    int damage = pokeballs[target].skills[skillId].getDamage();
     if(skillType == "Ground")
     {
         if(defenderType == "Electric" || defenderType == "Fire")
@@ -266,6 +281,19 @@ void BattlePage::useSkill(int skillId)
             damage -= 3;
         }
     }
+    cout << pokeballs[target].getName() << " used " << pokeballs[target].skills[skillId].getName() << "." << endl;
+    if(damage == 5)
+    {
+        cout << "It was effective." << endl;
+    }else if (damage == 8)
+    {
+        cout << "It was super effective." << endl;
+    }else
+    {
+        cout << "It was not very effective." << endl;
+    }
+    pokeballs[target+1].attacked(damage);
+    pokeballs[target].skills[skillId].used();
 }
 
 
