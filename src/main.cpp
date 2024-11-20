@@ -31,6 +31,8 @@ class Pokemon {
     string getLastSkill() const;
     string getType() const;
     Skill skills[4];
+    void setLastSkill(string skill);
+    string getSkillResult() const;
 
     private: 
     int n{};
@@ -38,6 +40,7 @@ class Pokemon {
     string type;
     int hp{};
     string lastSkill = "-";
+    string skillResult = "";
 };
 
 class BattlePage
@@ -46,6 +49,7 @@ public:
     BattlePage(Pokemon pokemon1, Pokemon pokemon2);
     void printState();
     void useSkill(int skillId);
+    bool isEnd();
 private:
     Pokemon pokeballs[2];
     int turn = 0;
@@ -72,21 +76,16 @@ int main(){
         exit(1);
     }
 
-    Pokemon pokemon1 = setPokemon(firstPokemon);
-    Pokemon pokemon2 = setPokemon(secondPokemon);
+    BattlePage battlePage(setPokemon(firstPokemon), setPokemon(secondPokemon));
 
-    BattlePage battlePage(pokemon1, pokemon2);
-    battlePage.printState();
-
-    while(pokemon1.getHp() > 0 && pokemon2.getHp() > 0)
+    while(battlePage.isEnd())
     {
+        battlePage.printState();
         int skill;
         cout << "Choose a skill(0~3): ";
         cin >> skill;
         battlePage.useSkill(skill);
     }
-    cout << pokemon1.getHp() << pokemon2.getHp() << endl;
-
     return 0;
 }
 
@@ -152,6 +151,17 @@ string Pokemon::getLastSkill() const
     return lastSkill;
 }
 
+void Pokemon::setLastSkill(string skill)
+{
+    lastSkill = skill;
+}
+
+string Pokemon::getSkillResult() const
+{
+    return skillResult;
+}
+
+
 string Pokemon::getType() const
 {
     return type;
@@ -200,12 +210,12 @@ void BattlePage::printState()
     cout << "| HP: "<< getFixedSizeString(to_string(pokeballs[0].getHp()), 25) <<"| HP: "<< getFixedSizeString(to_string(pokeballs[1].getHp()), 25) << "|" << endl;
     cout << "+------------------------------+------------------------------+" << endl;
     cout << "| Latest Skill: " << getFixedSizeString(pokeballs[0].getLastSkill(), 15) <<"| Latest Skill: "<< getFixedSizeString(pokeballs[1].getLastSkill(), 15) << "|"<< endl;
-    cout << "|                              |                              |" << endl;
+    cout << "| "<<getFixedSizeString(pokeballs[0].getSkillResult(),29)<<"| "<<getFixedSizeString(pokeballs[1].getSkillResult(),29)<<"|" << endl;
     cout << "+------------------------------+------------------------------+" << endl;
 
     for(int i=0; i<4; i++)
     {
-        cout << "| (" << i << ") " << getFixedSizeString(pokeballs[0].skills[i].getName(), 25) << "| (0) " << getFixedSizeString(pokeballs[1].skills[i].getName(), 25) << "|" << endl;
+        cout << "| (" << i << ") " << getFixedSizeString(pokeballs[0].skills[i].getName(), 25) << "| ("<< i <<") " << getFixedSizeString(pokeballs[1].skills[i].getName(), 25) << "|" << endl;
         cout << "|     - Type: "<< getFixedSizeString(pokeballs[0].skills[i].getSkillType(),17) << "|     - Type: " << getFixedSizeString(pokeballs[1].skills[i].getSkillType(),17) << "|" << endl;
         cout << "|     - Damage: "<< getFixedSizeString(to_string(pokeballs[0].skills[i].getDamage()),15) << "|     - Damage: " << getFixedSizeString(to_string(pokeballs[1].skills[i].getDamage()),15) << "|" << endl;
         string count1, count2;
@@ -229,6 +239,7 @@ void BattlePage::useSkill(int skillId)
     if(pokeballs[target].skills[skillId].getRemaining()<=0)
     {
         cout << pokeballs[target].getName() << " failed to perform " << pokeballs[target].skills[skillId].getName() <<"." << endl;
+        turn ++;
         return;
     }
 
@@ -294,7 +305,21 @@ void BattlePage::useSkill(int skillId)
     }
     pokeballs[target+1].attacked(damage);
     pokeballs[target].skills[skillId].used();
+    pokeballs[target].setLastSkill(pokeballs[target].skills[skillId].getName());
+    turn ++;
 }
+
+bool BattlePage::isEnd()
+{
+    if(pokeballs[0].getHp() > 0 && pokeballs[1].getHp() > 0)
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
+}
+
 
 
 string getFixedSizeString(string text, int size)
