@@ -51,6 +51,8 @@ public:
     void printState();
     void useSkill(int skillId);
     bool isEnd();
+    Pokemon getWinner();
+    Pokemon getLoser();
 private:
     Pokemon pokeballs[2];
     int turn = 0;
@@ -87,6 +89,8 @@ int main(){
         cin >> skill;
         battlePage.useSkill(skill);
     }
+    cout << "===============================================================" << endl;
+    cout << "Match Result: " << battlePage.getWinner().getName()<<" defeats " << battlePage.getLoser().getName() << endl;
     return 0;
 }
 
@@ -129,10 +133,7 @@ void Skill::used()
 // Pokemon 생성자 선언
 Pokemon::Pokemon(): skills{Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0)}{}
 
-Pokemon::Pokemon(int n, string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): n(n), name(name),type(type), hp(hp), skills{skill0, skill1, skill2, skill3}
-{
-}
-
+Pokemon::Pokemon(int n, string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): n(n), name(name),type(type), hp(hp), skills{skill0, skill1, skill2, skill3}{}
 
 void Pokemon::attacked(const int damage){
     hp -= damage;
@@ -339,6 +340,23 @@ bool BattlePage::isEnd()
     }
 }
 
+Pokemon BattlePage::getWinner()
+{
+    if (pokeballs[0].getHp()>0)
+    {
+        return pokeballs[0];
+    }
+    return pokeballs[1];
+}
+
+Pokemon BattlePage::getLoser()
+{
+    if (pokeballs[0].getHp()<=0)
+    {
+        return pokeballs[0];
+    }
+    return pokeballs[1];
+}
 
 
 string getFixedSizeString(string text, int size)
