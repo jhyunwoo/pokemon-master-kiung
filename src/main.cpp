@@ -70,7 +70,7 @@ int main(){
 
     cout << "Choose a Pokemon(0~4): ";
     cin >> firstPokemon;
-    cout << "Choose another Pokemon(0~4): ";
+    cout << "Choose a Pokemon(0~4): ";
     cin >> secondPokemon;
 
     if(firstPokemon == secondPokemon)
@@ -85,9 +85,10 @@ int main(){
     {
         battlePage.printState();
         int skill;
-        cout << "Choose a skill(0~3): ";
+        cout << "Choose a skill (0~3): ";
         cin >> skill;
         battlePage.useSkill(skill);
+        cout << endl;
     }
     cout << "===============================================================" << endl;
     cout << "Match Result: " << battlePage.getWinner().getName()<<" defeats " << battlePage.getLoser().getName() << endl;
