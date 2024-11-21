@@ -180,7 +180,7 @@ Pokemon setPokemon(const int n)
     switch(n)
     {
     case 0:
-        return {0,"Pikachu", "Electric", 35, Skill("Tackle", "Normal", 4, 5), Skill("Glass Knot", "Glass", 8,5), Skill("Thunderbolt", "Electric", 10, 5), Skill("Megabolt", "Electric", 15, 3)};
+        return {0,"Pikachu", "Electric", 35, Skill("Tackle", "Normal", 4, 5), Skill("Grass Knot", "Grass", 8,5), Skill("Thunderbolt", "Electric", 10, 5), Skill("Megabolt", "Electric", 15, 3)};
     case 1:
         return {0,"Dratini", "Water", 41, Skill("Wrap", "Normal", 4, 10), Skill("Aqua Tail", "Water", 3,5), Skill("Water Pulse", "Water", 13, 2), Skill("Hyper Beam", "Normal", 20, 1)};
     case 2:
@@ -268,7 +268,7 @@ void BattlePage::useSkill(int skillId)
         {
             damage += 5;
             skillResult = "It was super effective.";
-        }else if(defenderType == "Glass")
+        }else if(defenderType == "Grass")
         {
             damage -= 3;
             skillResult="It was not very effective.";
@@ -279,7 +279,7 @@ void BattlePage::useSkill(int skillId)
         {
             damage += 5;
             skillResult = "It was super effective.";
-        }else if(defenderType == "Ground" || defenderType == "Electric" || defenderType == "Glass")
+        }else if(defenderType == "Ground" || defenderType == "Electric" || defenderType == "Grass")
         {
             damage -= 3;
             skillResult="It was not very effective.";
@@ -290,25 +290,25 @@ void BattlePage::useSkill(int skillId)
         {
             damage += 5;
             skillResult = "It was super effective.";
-        }else if(defenderType == "Water" || defenderType == "Glass")
+        }else if(defenderType == "Water" || defenderType == "Grass")
         {
             damage -= 3;
             skillResult="It was not very effective.";
         }
-    }else if(skillType == "Glass")
+    }else if(skillType == "Grass")
     {
         if(defenderType == "Water")
         {
             damage += 5;
             skillResult = "It was super effective.";
-        }else if(defenderType == "Ground" || defenderType == "Glass" || defenderType == "Fire")
+        }else if(defenderType == "Ground" || defenderType == "Grass" || defenderType == "Fire")
         {
             damage -= 3;
             skillResult="It was not very effective.";
         }
     }else if(skillType == "Fire")
     {
-        if(defenderType == "Glass")
+        if(defenderType == "Grass")
         {
             damage += 5;
             skillResult = "It was super effective.";

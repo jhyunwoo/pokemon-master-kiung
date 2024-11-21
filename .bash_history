@@ -23,3 +23,105 @@ mkdir testcase
 cd src
 g++ -o ../build/main ./main.cpp 
 ../build/main 
+clear
+ls
+clear
+g++ -o ../build/main ./main.cpp 
+cd src
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+g++ -o ../build/main ./main.cpp 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+../build/main 
+clear
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+ls
+clear
+clear
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+1
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+../build/main 
+../build/main 
+clear
+g++ -o ../build/main ./main.cpp 
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+../build/main 
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
+g++ -o ../build/main ./main.cpp 
+clear
+../build/main 
+1
+clear
+g++ -o ../build/main ./main.cpp 
+../build/main 
+clear
