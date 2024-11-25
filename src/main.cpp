@@ -4,6 +4,7 @@
 #include <string>
 // 프로그램 종료를 위한 라이브러리
 #include <cstdlib>
+#include <utility>
 
 // std namespace를 사용
 using namespace std;
@@ -57,9 +58,9 @@ public:
     // 포켓몬 스킬을 저장하기 위한 배열
     Skill skills[4];
     // 포켓몬이 사용한 마지막 스킬을 설정하기 위한 함수
-    void setLastSkill(string skill);
+    void setLastSkill(const string& skill);
     // 포켓몬이 사용한 마지막 스킬의 효과를 설정하기 위한 함수
-    void setSkillResult(string result);
+    void setSkillResult(const string& result);
     // 포켓몬이 사용한 마지막 스킬으리 효과를 가져오기 위한 함수
     string getSkillResult() const;
 private:
@@ -68,11 +69,11 @@ private:
     // 포켓몬 타입
     string type;
     // 포켓몬 채력
-    int hp;
+    int hp{};
     // 포켓몬이 사용한 마지막 스킬
     string lastSkill = "-";
     // 포켓몬이 사용한 마지막 스킬의 효과
-    string skillResult = "";
+    string skillResult;
 };
 // 포켓몬이 배틀을 하는 클래스
 class BattlePage
@@ -81,7 +82,7 @@ public:
     // 생성자 (두 개의 포켓몬 필요)
     BattlePage(Pokemon pokemon1, Pokemon pokemon2);
     // 배틀 상태 출력 함수
-    void printState();
+    void printState() const;
     // 스킬을 사용하는 함수 (turn 이 변화함에 따라 순서에 맞는 포켓몬이 자동으로 입력된 스킬을 사용함)
     void useSkill(int skillId);
     // 배틀이 종료되었는지 확인하는 함수
@@ -141,7 +142,7 @@ int main(){
     return 0;
 }
 // Skill 생성자 정의
-Skill::Skill(string name, string skillType, int damage, int maxTry):name(name), skillType(skillType), damage(damage), maxTry(maxTry)
+Skill::Skill(string name, string skillType, const int damage, const int maxTry):name(move(name)), skillType(move(skillType)), damage(damage), maxTry(maxTry)
 {
     // 남은 스킬 사용 횟수는 최대 사용 횟수로 정의
     remaining = maxTry;
@@ -180,7 +181,7 @@ void Skill::used()
 // Pokemon 기본 생성자 정의 (의미 없는 값)
 Pokemon::Pokemon(): skills{Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0),Skill("NULL", "NULL", 0, 0)}{}
 // Pokemon 생성자
-Pokemon::Pokemon(string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): name(name),type(type), hp(hp), skills{skill0, skill1, skill2, skill3}{}
+Pokemon::Pokemon(string name, string type, int hp, Skill skill0, Skill skill1, Skill skill2, Skill skill3): skills{move(skill0), move(skill1), move(skill2), move(skill3)},name(move(name)), type(move(type)), hp(hp){}
 // 포켓몬이 공격을 받았을 때 공격력 만큼 체력을 줄이는 함수 정의
 void Pokemon::attacked(const int damage){
     // 공격력 만큼 체력을 감소시킴
@@ -201,7 +202,7 @@ string Pokemon::getLastSkill() const
     return lastSkill;
 }
 // 마지막에 사용한 스킬을 설정하는 함수
-void Pokemon::setLastSkill(string skill)
+void Pokemon::setLastSkill(const string& skill)
 {
     // 마지막에 사용한 스킬에 입력 값을 대입
     lastSkill = skill;
@@ -217,7 +218,7 @@ string Pokemon::getType() const
     return type;
 }
 // 포켓몬이 사용한 스킬의 결과를 설정하기 위한 함수
-void Pokemon::setSkillResult(string result)
+void Pokemon::setSkillResult(const string& result)
 {
     // 스킬 사용 결과에 입력값을 대입함
     skillResult = result;
@@ -249,9 +250,9 @@ Pokemon setPokemon(const int n)
     }
 }
 // BattlePage 생성자 정의
-BattlePage::BattlePage(Pokemon pokemon1, Pokemon pokemon2):pokeballs{pokemon1, pokemon2}{}
+BattlePage::BattlePage(Pokemon pokemon1, Pokemon pokemon2):pokeballs{move(pokemon1), move(pokemon2)}{}
 // 배틀 상태를 출력하는 함수 정의
-void BattlePage::printState()
+void BattlePage::printState() const
 {
     // 배틀 이름 출력
     cout << "+-------------------------------------------------------------+" << endl;
