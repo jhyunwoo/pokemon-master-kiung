@@ -125,3 +125,8 @@ clear
 g++ -o ../build/main ./main.cpp 
 ../build/main 
 clear
+clear
+ls
+clear
+cd src/
+g++ -o ../build/main ./main.cpp 
